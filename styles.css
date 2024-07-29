@@ -151,7 +151,9 @@ body {
 
     .logo {
         width: 100px;
+        margin-bottom: -8px;
     }
+
 
     .container h1 {
         font-size: 21px;

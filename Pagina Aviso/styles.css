@@ -1,0 +1,179 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+:root {
+    --background-color: #ffffff;
+    --text-color: #000000;
+}
+
+[data-theme="dark"] {
+    --background-color: #121212;
+    --text-color: #ffffff;
+}
+
+.theme-switcher {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--container-background);
+    border-radius: 20px;
+    padding: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px var(--container-shadow);
+}
+
+.theme-switcher i {
+    color: var(--text-color);
+    font-size: 24px;
+    transition: color 0.3s;
+}
+
+.container {
+    text-align: center;
+    background-color: var(--container-background);
+    margin-bottom: 180px;
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 8px var(--container-shadow);
+}
+
+.logo {
+    width: 80px;
+    margin-bottom: 10px;
+}
+
+.container h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.verified-icon {
+    width: 28px;
+    height: 28px;
+    margin-left: 9px;
+}
+
+.container p {
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px var(--container-shadow);
+}
+
+.link.brinde {
+    background: linear-gradient(45deg, #f9e6a7, #f5d973); /* Gradiente para #f5d973 */
+    color: #70369b;
+}
+
+.link.amostra {
+    background: linear-gradient(45deg, #f9e6a7, #f5d973); /* Gradiente para #f5d973 */
+    color: #70369b;
+}
+
+.link.boticario {
+    background-color: #32cd32; /* Verde Limão */
+}
+
+.link.qdb {
+    background: linear-gradient(45deg, #a18cd1, #d172b6); /* Gradiente Rosa */
+}
+
+.link.whatsapp {
+    background: linear-gradient(45deg, #57d164, #25ac3b); /* Gradiente Verde WhatsApp */
+}
+
+.link.telegram {
+    background: linear-gradient(45deg, #0088cc, #1c92d2); /* Gradiente Azul Telegram */
+}
+
+.link.instagram {
+    background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045); /* Gradiente Instagram */
+}
+
+.link:hover {
+    opacity: 0.8;
+}
+
+.link i {
+    margin-right: 10px;
+    font-size: 25px;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .theme-switcher {
+        top: 10px;
+        right: 10px;
+        padding: 10px;
+    }
+
+    .theme-switcher i {
+        font-size: 20px;
+    }
+
+    .container {
+        padding: 32px;
+        margin-bottom: 150px;
+    }
+
+    .logo {
+        width: 100px;
+    }
+
+    .container h1 {
+        font-size: 21px;
+    }
+
+    .verified-icon {
+        width: 25px;
+        height: 25px;
+        margin-left: 5px;
+    }
+
+    .container p {
+        font-size: 14px;
+        margin-bottom: 35px;
+    }
+
+    .link {
+        padding: 15px;
+        font-size: 15px;
+    }
+
+    .link i {
+        font-size: 20px;
+    }
+}

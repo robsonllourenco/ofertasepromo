@@ -104,7 +104,8 @@ body {
 }
 
 .link.boticario {
-    background-color: #32cd32; /* Verde Limão */
+    background: linear-gradient(45deg, #c18a64, #f5d973); /* Gradiente da cor da imagem para #f5d973 */
+    color: #70369b;
 }
 
 .link.qdb {

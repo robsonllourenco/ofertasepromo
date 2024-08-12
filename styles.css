@@ -104,7 +104,7 @@ body {
 }
 
 .link.boticario {
-    background: linear-gradient(45deg, #c18a64, #f5d973); /* Gradiente da cor da imagem para #f5d973 */
+    background: linear-gradient(45deg, #c18a64, #dba582); /* Gradiente mais suave a partir da cor da imagem */
     color: #70369b;
 }
 

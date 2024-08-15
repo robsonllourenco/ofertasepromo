@@ -108,8 +108,9 @@ body {
     color: #423022;
 }
 
-.link.qdb {
-    background: linear-gradient(45deg, #a18cd1, #d172b6); /* Gradiente Rosa */
+.link.berenice {
+    background: linear-gradient(90deg, rgba(230,113,41,1) 0%, rgba(233,155,107,1) 100%);
+    color: #1c0d01;
 }
 
 .link.whatsapp {

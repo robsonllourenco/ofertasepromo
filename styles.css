@@ -113,6 +113,11 @@ body {
     color: #1c0d01;
 }
 
+.link.contato {
+    background: linear-gradient(90deg, rgba(111,50,170,1) 0%, rgba(58,14,101,1) 100%);
+    color: #fff;
+}
+
 .link.whatsapp {
     background: linear-gradient(45deg, #57d164, #25ac3b); /* Gradiente Verde WhatsApp */
 }

@@ -98,18 +98,8 @@ body {
     color: #70369b;
 }
 
-.link.amostra {
-    background: linear-gradient(45deg, #f9e6a7, #f5d973); /* Gradiente para #f5d973 */
-    color: #70369b;
-}
-
 .link.boticario {
     background: #c18e95; /* Gradiente mais suave a partir da cor da imagem */
-    color: #fff;
-}
-
-.link.berenice {
-    background: linear-gradient(90deg, rgba(230,113,41,1) 0%, rgba(233,155,107,1) 100%);
     color: #fff;
 }
 
@@ -126,9 +116,8 @@ body {
     background: linear-gradient(45deg, #0088cc, #1c92d2); /* Gradiente Azul Telegram */
 }
 
-
 .link.shopee {
-    background: linear-gradient(45deg, #fb5430, #fb5430); /* Gradiente Azul Telegram */
+    background: linear-gradient(45deg, #fb5430, #fb5430); /* Gradiente Shopee */
     color: #fff;
 }
 
@@ -166,7 +155,6 @@ body {
         width: 100px;
         margin-bottom: -8px;
     }
-
 
     .container h1 {
         font-size: 21px;

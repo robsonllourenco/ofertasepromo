@@ -5,8 +5,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+    padding: 0 15px;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -40,22 +41,22 @@ body {
 .container {
     text-align: center;
     background-color: var(--container-background);
-    margin-bottom: 180px;
+    margin-top: 60px; /* Adiciona mais espaço no topo */
     padding: 40px;
     border-radius: 20px;
     max-width: 400px;
-    width: 90%;
+    width: 100%;
     box-shadow: 0 4px 8px var(--container-shadow);
 }
 
 .logo {
     width: 80px;
-    margin-bottom: 10px;
+    margin-bottom: 20px; /* Adiciona mais espaçamento abaixo do logo */
 }
 
 .container h1 {
     font-size: 24px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -76,7 +77,7 @@ body {
 .links {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px; /* Adiciona mais espaço entre os botões */
 }
 
 .link {
@@ -99,30 +100,29 @@ body {
 }
 
 .link.boticario {
-    background: #c18e95; /* Gradiente mais suave a partir da cor da imagem */
-    color: #fff;
-}
-
-.link.contato {
-    background: linear-gradient(90deg, rgba(111,50,170,1) 0%, rgba(58,14,101,1) 100%);
+    background: #c18e95;
     color: #fff;
 }
 
 .link.whatsapp {
-    background: linear-gradient(45deg, #57d164, #25ac3b); /* Gradiente Verde WhatsApp */
+    background: linear-gradient(45deg, #57d164, #25ac3b);
 }
 
 .link.telegram {
-    background: linear-gradient(45deg, #0088cc, #1c92d2); /* Gradiente Azul Telegram */
+    background: linear-gradient(45deg, #0088cc, #1c92d2);
 }
 
 .link.shopee {
-    background: linear-gradient(45deg, #fb5430, #fb5430); /* Gradiente Shopee */
+    background: linear-gradient(45deg, #fb5430, #fb5430);
     color: #fff;
 }
 
 .link.instagram {
-    background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045); /* Gradiente Instagram */
+    background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045);
+}
+
+.link.contato {
+    background: linear-gradient(90deg, rgba(111,50,170,1) 0%, rgba(58,14,101,1) 100%);
 }
 
 .link:hover {
@@ -148,35 +148,35 @@ body {
 
     .container {
         padding: 32px;
-        margin-bottom: 100px;
+        margin-top: 40px;
     }
 
     .logo {
-        width: 100px;
-        margin-bottom: -8px;
+        width: 60px;
+        margin-bottom: 15px;
     }
 
     .container h1 {
-        font-size: 21px;
+        font-size: 20px;
     }
 
     .verified-icon {
-        width: 25px;
-        height: 25px;
+        width: 22px;
+        height: 22px;
         margin-left: 5px;
     }
 
     .container p {
         font-size: 14px;
-        margin-bottom: 35px;
+        margin-bottom: 25px;
     }
 
     .link {
-        padding: 15px;
-        font-size: 15px;
+        padding: 12px;
+        font-size: 14px;
     }
 
     .link i {
-        font-size: 20px;
+        font-size: 18px;
     }
 }

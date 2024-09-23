@@ -103,6 +103,13 @@ body {
     color: #fff;
 }
 
+
+.link.qdbb {
+    background: #7e82af; /* Gradiente mais suave a partir da cor da imagem */
+    color: #fff;
+}
+
+
 .link.contato {
     background: linear-gradient(90deg, rgba(111,50,170,1) 0%, rgba(58,14,101,1) 100%);
     color: #fff;

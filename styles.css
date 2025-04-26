@@ -1,3 +1,17 @@
+:root {
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --container-background: #ffffff;
+    --container-shadow: rgba(255, 255, 255, 0);
+}
+
+[data-theme="dark"] {
+    --background-color: #000000;
+    --text-color: #ffffff;
+    --container-background: #1e1e1e00;
+    --container-shadow: rgba(255, 255, 255, 0);
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: var(--background-color);
@@ -5,72 +19,66 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 20px;
     margin: 0;
     transition: background-color 0.3s, color 0.3s;
-}
-
-:root {
-    --background-color: #ffffff;
-    --text-color: #000000;
-}
-
-[data-theme="dark"] {
-    --background-color: #121212;
-    --text-color: #ffffff;
+    box-sizing: border-box;
 }
 
 .theme-switcher {
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 20px;
     background-color: var(--container-background);
-    border-radius: 20px;
-    padding: 15px;
+    border-radius: 50%;
+    padding: 12px;
     cursor: pointer;
     box-shadow: 0 4px 8px var(--container-shadow);
+    z-index: 1000;
 }
 
 .theme-switcher i {
     color: var(--text-color);
-    font-size: 24px;
+    font-size: 22px;
     transition: color 0.3s;
 }
 
 .container {
     text-align: center;
     background-color: var(--container-background);
-    margin-bottom: 180px;
-    padding: 40px;
+    padding: 40px 30px;
     border-radius: 20px;
-    max-width: 400px;
-    width: 90%;
-    box-shadow: 0 4px 8px var(--container-shadow);
+    max-width: 450px;
+    width: 100%;
+    box-shadow: 0 4px 10px var(--container-shadow);
+    box-sizing: border-box;
 }
 
 .logo {
-    width: 80px;
+    width: 90px;
     margin-bottom: 10px;
 }
 
 .container h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
+    font-size: 26px;
+    margin: 15px 0;
     font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .verified-icon {
     width: 28px;
     height: 28px;
-    margin-left: 9px;
+    margin-left: 8px;
 }
 
 .container p {
-    font-size: 14px;
-    margin-bottom: 30px;
+    font-size: 16px;
+    margin-bottom: 25px;
 }
 
 .links {
@@ -85,30 +93,34 @@ body {
     justify-content: center;
     text-decoration: none;
     color: #fff;
-    padding: 15px;
+    padding: 14px 20px;
     border-radius: 10px;
-    transition: background-color 0.3s;
     font-size: 16px;
     font-weight: bold;
-    box-shadow: 0 2px 4px var(--container-shadow);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px var(--container-shadow);
+    word-break: break-word;
+}
+
+.link:hover {
+    transform: translateY(-3px);
+    opacity: 0.9;
 }
 
 .link.brinde {
-    background: linear-gradient(45deg, #f9e6a7, #f5d973); /* Gradiente para #f5d973 */
+    background: linear-gradient(45deg, #f9e6a7, #f5d973);
     color: #70369b;
 }
 
 .link.boticario {
-    background: #4d1e35; /* Gradiente mais suave a partir da cor da imagem */
+    background: #4d1e35;
     color: #fff;
 }
-
 
 .link.berenice {
-    background: #ca5567; /* Gradiente mais suave a partir da cor da imagem */
+    background: #ca5567;
     color: #fff;
 }
-
 
 .link.contato {
     background: linear-gradient(90deg, rgba(111,50,170,1) 0%, rgba(58,14,101,1) 100%);
@@ -116,74 +128,92 @@ body {
 }
 
 .link.whatsapp {
-    background: linear-gradient(45deg, #57d164, #25ac3b); /* Gradiente Verde WhatsApp */
+    background: linear-gradient(45deg, #57d164, #25ac3b);
 }
 
 .link.telegram {
-    background: linear-gradient(45deg, #0088cc, #1c92d2); /* Gradiente Azul Telegram */
+    background: linear-gradient(45deg, #0088cc, #1c92d2);
 }
 
 .link.shopee {
-    background: linear-gradient(45deg, #fb5430, #fb5430); /* Gradiente Shopee */
-    color: #fff;
+    background: linear-gradient(45deg, #fb5430, #fb5430);
 }
 
 .link.instagram {
-    background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045); /* Gradiente Instagram */
-}
-
-.link:hover {
-    opacity: 0.8;
+    background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045);
 }
 
 .link i {
-    margin-right: 10px;
-    font-size: 25px;
+    margin-right: 8px;
+    font-size: 22px;
 }
 
 /* Responsividade */
-@media (max-width: 600px) {
-    .theme-switcher {
-        top: 10px;
-        right: 10px;
-        padding: 10px;
-    }
-
-    .theme-switcher i {
-        font-size: 20px;
-    }
-
+@media (max-width: 768px) {
     .container {
-        padding: 32px;
-        margin-bottom: 100px;
+        padding: 30px 20px;
+        max-width: 90%;
     }
 
     .logo {
-        width: 100px;
-        margin-bottom: -8px;
+        width: 75px;
     }
 
     .container h1 {
-        font-size: 21px;
+        font-size: 22px;
     }
 
     .verified-icon {
-        width: 25px;
-        height: 25px;
-        margin-left: 5px;
+        width: 24px;
+        height: 24px;
     }
 
     .container p {
         font-size: 14px;
-        margin-bottom: 35px;
     }
 
     .link {
-        padding: 15px;
         font-size: 15px;
+        padding: 13px 18px;
     }
 
     .link i {
         font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 25px 15px;
+        border-radius: 15px;
+    }
+
+    .theme-switcher {
+        top: 15px;
+        right: 15px;
+        padding: 8px;
+    }
+
+    .theme-switcher i {
+        font-size: 18px;
+    }
+
+    .container h1 {
+        font-size: 20px;
+    }
+
+    .verified-icon {
+        width: 22px;
+        height: 22px;
+        margin-left: 5px;
+    }
+
+    .link {
+        font-size: 14px;
+        padding: 12px 15px;
+    }
+
+    .link i {
+        font-size: 18px;
     }
 }

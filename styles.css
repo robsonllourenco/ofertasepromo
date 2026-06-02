@@ -1,0 +1,494 @@
+:root {
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --container-background: #ffffff;
+    --container-shadow: rgba(255, 255, 255, 0);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    margin: 0;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    box-sizing: border-box;
+}
+
+
+.icon {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.container {
+    text-align: center;
+    background-color: var(--container-background);
+    padding: 40px 30px;
+    border-radius: 20px;
+    max-width: 450px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.logo {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 10px;
+}
+
+.container h1 {
+    font-size: 26px;
+    margin: 15px 0;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.verified-icon {
+    width: 28px;
+    height: 28px;
+    margin-left: 8px;
+}
+
+.container p {
+    font-size: 16px;
+    margin-bottom: 25px;
+}
+
+.groups-section {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.groups-section h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.groups-grid {
+    display: inline-grid;
+    grid-template-columns: repeat(4, auto);
+    gap: 5px;
+    margin-bottom: 15px;
+    width: auto;
+}
+
+.groups-grid .link {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: auto;
+}
+
+.groups-grid .link i {
+    font-size: 36px;
+    margin: 0;
+}
+
+.groups-grid .link span {
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.links {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #fff;
+    padding: 12px 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    word-break: break-word;
+    text-align: center;
+    flex-wrap: wrap;
+    will-change: transform;
+}
+
+.link:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.link.brinde {
+    background: linear-gradient(45deg, #f9e6a7, #f5d973);
+    color: #70369b;
+}
+
+.link.boticario {
+    background: #a571a9;
+    color: #fff;
+}
+
+.link.boticario2 {
+    background: #319077;
+    color: #fff;
+}
+
+.link.berenice {
+    background: #ca5567;
+    color: #fff;
+}
+
+.link.contato {
+    background: linear-gradient(90deg, rgba(111,50,170,1) 0%, rgba(58,14,101,1) 100%);
+    color: #fff;
+}
+
+.link.whatsapp {
+    background: linear-gradient(45deg, #57d164, #25ac3b);
+}
+
+.link.telegram {
+    background: linear-gradient(45deg, #0088cc, #1c92d2);
+}
+
+.link.shopee {
+    background: linear-gradient(45deg, #fb5430, #fb5430);
+}
+
+.link.instagram {
+    background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045);
+}
+
+.link i {
+    margin-right: 8px;
+    font-size: 22px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 20px;
+        max-width: 90%;
+    }
+
+    .logo {
+        width: 75px;
+        height: 75px;
+    }
+
+    .container h1 {
+        font-size: 22px;
+    }
+
+    .verified-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .container p {
+        font-size: 14px;
+    }
+
+    .groups-section h3 {
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+    .groups-grid {
+        grid-template-columns: repeat(2, auto);
+        gap: 10px;
+    }
+
+    .groups-grid .link {
+        padding: 14px;
+        gap: 5px;
+        width: auto;
+    }
+
+    .groups-grid .link i {
+        font-size: 30px;
+    }
+
+    .groups-grid .link span {
+        font-size: 12px;
+    }
+
+    .links {
+        grid-template-columns: 1fr;
+    }
+
+    .link {
+        font-size: 13px;
+        padding: 12px 12px;
+    }
+
+    .link i {
+        font-size: 18px;
+        margin-right: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 25px 15px;
+        border-radius: 15px;
+    }
+
+    .logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .container h1 {
+        font-size: 20px;
+    }
+
+    .verified-icon {
+        width: 22px;
+        height: 22px;
+        margin-left: 5px;
+    }
+
+    .groups-section h3 {
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+
+    .groups-grid {
+        grid-template-columns: repeat(4, auto);
+        gap: 5px;
+    }
+
+    .groups-grid .link {
+        padding: 12px;
+        gap: 6px;
+        width: auto;
+    }
+
+    .groups-grid .link i {
+        font-size: 24px;
+    }
+
+    .groups-grid .link span {
+        font-size: 11px;
+    }
+
+    .links {
+        grid-template-columns: 1fr;
+    }
+
+    .link {
+        font-size: 12px;
+        padding: 10px 10px;
+    }
+
+    .link i {
+        font-size: 14px;
+        margin-right: 4px;
+    }
+}
+
+.posts-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+
+.posts-section h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    margin-top: 0;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.posts-container {
+    width: 100%;
+}
+
+.posts-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.posts-footer .link {
+    max-width: 300px;
+}
+
+.posts-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.post-card {
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    background-color: var(--container-background);
+    cursor: pointer;
+    align-items: stretch;
+    will-change: transform;
+    content-visibility: auto;
+}
+
+.post-card:hover {
+    transform: translateY(-2px);
+}
+
+.post-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+    flex-shrink: 0;
+    background-color: var(--background-color);
+}
+
+.post-image-placeholder {
+    width: 150px;
+    height: 150px;
+    background-color: var(--background-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+
+.post-title {
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--text-color);
+    margin: 0;
+    line-height: 1.4;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.loading,
+.no-posts,
+.error {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-color);
+}
+
+.error {
+    color: #d32f2f;
+}
+
+@media (max-width: 768px) {
+    .posts-section {
+        margin-top: 30px;
+        padding-top: 20px;
+    }
+
+    .posts-section h2 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .posts-grid {
+        gap: 12px;
+    }
+
+    .post-card {
+        flex-direction: row;
+    }
+
+    .post-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .post-image-placeholder {
+        width: 120px;
+        height: 120px;
+    }
+
+    .post-title {
+        padding: 12px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .posts-section {
+        margin-top: 25px;
+        padding-top: 15px;
+    }
+
+    .posts-section h2 {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+
+    .posts-grid {
+        gap: 10px;
+    }
+
+    .post-card {
+        flex-direction: column;
+    }
+
+    .post-image {
+        width: 100%;
+        height: 120px;
+    }
+
+    .post-image-placeholder {
+        width: 100%;
+        height: 120px;
+        font-size: 11px;
+    }
+
+    .post-title {
+        padding: 10px;
+        font-size: 13px;
+        text-align: center;
+        justify-content: center;
+    }
+}

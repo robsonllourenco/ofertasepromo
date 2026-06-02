@@ -1,0 +1,28 @@
+{
+  "name": "Eu Quero Brindes Grátis",
+  "short_name": "Brindes Grátis",
+  "description": "Participe dos nossos grupos de brindes grátis e fique por dentro das últimas novidades sobre brindes e amostras grátis.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "90x90",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["lifestyle"],
+  "screenshots": [
+    {
+      "src": "logo.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
+}

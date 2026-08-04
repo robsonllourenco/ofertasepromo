@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /admin
+Disallow: /admin.html
+Disallow: /_admin/
+Disallow: /_painel/
+Disallow: /_painel_a7x9k2.html
+Disallow: /_painel_a7x9k2/
+Disallow: /links.json
+
+Sitemap: https://euquerobrindesgratis.blogspot.com/sitemap.xml

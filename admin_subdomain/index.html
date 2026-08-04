@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Painel Administrativo Isolado | admin.meudominio.com.br</title>
+    
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    
+    <link rel="icon" href="../logo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+    <script>
+        if (window.top !== window.self) {
+            window.top.location = window.self.location;
+        }
+    </script>
+</head>
+<body class="admin-body">
+
+    <!-- Modal de Login & TOTP Google Authenticator -->
+    <div id="login-modal" class="modal-overlay active">
+        <div class="modal-content" style="max-width: 400px; text-align: center;">
+            <div class="logo-wrapper">
+                <img src="../logo.png" alt="Logo" class="logo" width="76" height="76">
+            </div>
+            
+            <div id="login-step-1">
+                <h3 style="margin-bottom: 8px;">Painel Admin Isolado</h3>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">admin.meudominio.com.br</p>
+                
+                <form id="login-form">
+                    <div class="form-group" style="margin-bottom: 16px;">
+                        <input type="password" id="admin-pass-input" placeholder="Senha Master (CAFEQuente@@##77)" required autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Avançar ➔</button>
+                </form>
+            </div>
+
+            <div id="login-step-2" class="hidden">
+                <h3 style="margin-bottom: 8px;">🔐 Autenticação TOTP (2FA)</h3>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Digite o código de 6 dígitos do seu <strong>Google Authenticator</strong>.</p>
+                
+                <form id="2fa-form">
+                    <div class="form-group" style="margin-bottom: 16px;">
+                        <input type="text" id="admin-totp-input" placeholder="000 000" maxlength="6" pattern="[0-9]{6}" required autocomplete="one-time-code" style="letter-spacing: 0.3em; text-align: center; font-size: 20px; font-weight: 800;">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Validar Código 2FA</button>
+                </form>
+            </div>
+
+            <div id="lockout-alert" class="error hidden" style="margin-top: 14px; font-size: 13px; padding: 12px;"></div>
+            <p id="login-error-msg" class="error hidden" style="margin-top: 14px; font-size: 12px;"></p>
+        </div>
+    </div>
+
+    <!-- Conteúdo Principal do Painel Admin -->
+    <div id="admin-app" class="hidden">
+        
+        <header class="admin-nav">
+            <div class="admin-brand">
+                <img src="../logo.png" alt="Logo" class="admin-brand-logo">
+                <h2>Painel de Gestão Isolado <img src="../verificado.png" alt="Verificado" class="verified-icon" width="18" height="18"></h2>
+            </div>
+            
+            <div class="admin-nav-actions">
+                <button type="button" id="btn-panic" class="btn btn-danger btn-sm" title="🚨 Encerrar todas as sessões e purgar tokens imediatamente" style="font-weight: 800;">
+                    🚨 Modo de Emergência
+                </button>
+                <span id="github-sync-badge" class="clicks-badge" style="background: var(--accent-light); color: var(--accent-primary); cursor: pointer;" title="Status da sincronização com o GitHub">
+                    ⚡ Proxy Worker: Ativo (Zero Token)
+                </span>
+                <span id="session-timer-badge" class="clicks-badge" style="background: var(--bg-subtle); color: var(--text-muted);" title="Sessão expira em 15 min de inatividade">
+                    ⏱️ 15:00
+                </span>
+                <button type="button" id="btn-open-audit-logs" class="btn btn-outline btn-sm">
+                    📜 Audit Logs
+                </button>
+                <button type="button" id="btn-theme-toggle" class="btn btn-outline btn-sm">
+                    <span id="theme-icon">🌙</span> <span id="theme-text">Escuro</span>
+                </button>
+                <button type="button" id="btn-open-import-export" class="btn btn-outline btn-sm">
+                    💾 JSON Import/Export
+                </button>
+                <button type="button" id="btn-open-settings" class="btn btn-outline btn-sm">
+                    ⚙️ Configurações & Proxy
+                </button>
+                <button type="button" id="btn-logout" class="btn btn-danger btn-sm">
+                    Sair
+                </button>
+            </div>
+        </header>
+
+        <main class="admin-grid">
+            
+            <!-- Formulário Criar e Copiar -->
+            <section class="admin-card">
+                <div class="admin-card-header">
+                    <h3 class="admin-card-title">🔗 Criar link publicável</h3>
+                </div>
+
+                <form id="create-link-form" class="create-link-form">
+                    <div class="form-group">
+                        <label for="target-url">URL de Destino (Original/Blogger)</label>
+                        <input type="url" id="target-url" placeholder="https://euquerobrindesgratis.blogspot.com/2026/08/pague-menos-scan-descontos.html" required>
+                        <span class="form-help">Cole a URL completa da publicação do Blogger.</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="link-title">Título / Identificador</label>
+                        <input type="text" id="link-title" placeholder="Pague Menos lança campanha Scan" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="link-slug">Slug do Redirecionamento</label>
+                        <div class="input-with-prefix">
+                            <span class="input-prefix" id="domain-prefix">meudominio.com.br/go/</span>
+                            <input type="text" id="link-slug" placeholder="pague-menos-scan-descontos" required pattern="[a-zA-Z0-9\-_]+" title="Apenas letras, números, hífen e underline">
+                        </div>
+                        <span class="form-help">Link público gerado para meudominio.com.br</span>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+                        <button type="submit" id="btn-submit-create-copy" class="btn btn-copy" style="font-size: 15px; padding: 13px; width: 100%;">
+                            ⚡ Criar e copiar (< 5s)
+                        </button>
+                        <button type="button" id="btn-submit-create-only" class="btn btn-outline btn-sm" style="width: 100%;">
+                            ➕ Apenas criar link
+                        </button>
+                    </div>
+                </form>
+
+                <div id="created-feedback-banner" class="created-success-banner hidden">
+                    <h4>✅ Link criado e copiado com sucesso!</h4>
+                    <p style="font-size: 12px; color: var(--text-muted);">Publicação enviada para o repositório:</p>
+                    
+                    <div style="font-size: 12px; display: flex; flex-direction: column; gap: 4px;">
+                        <div><strong>Título:</strong> <span id="fb-title"></span></div>
+                        <div><strong>Slug:</strong> <code id="fb-slug"></code></div>
+                        <div><strong>Destino:</strong> <span id="fb-target" style="word-break: break-all; font-size: 11px;"></span></div>
+                    </div>
+
+                    <div class="created-url-display" id="fb-public-url"></div>
+
+                    <div style="display: flex; gap: 8px; margin-top: 4px;">
+                        <button type="button" id="btn-copy-new-link" class="btn btn-copy" style="flex: 1;">
+                            📋 Copiar link novamente
+                        </button>
+                        <button type="button" id="btn-qr-new-link" class="btn btn-outline btn-sm">
+                            📱 QR Code
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tabela de Links e Métricas -->
+            <section style="display: flex; flex-direction: column; gap: 20px;">
+                
+                <div class="metrics-row">
+                    <div class="metric-card">
+                        <span class="metric-label">Total de Links</span>
+                        <span class="metric-value" id="stat-total-links">0</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">Total de Cliques</span>
+                        <span class="metric-value" id="stat-total-clicks">0</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">Link Mais Acessado</span>
+                        <span class="metric-value" id="stat-top-link" style="font-size: 15px; word-break: break-all;">-</span>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3 class="admin-card-title">📋 Links Públicos</h3>
+                        <span id="links-count-badge" class="clicks-badge">0 links</span>
+                    </div>
+
+                    <div class="link-search-bar">
+                        <input type="search" id="admin-search-input" placeholder="🔍 Pesquisar por slug, título ou URL de destino...">
+                        <button type="button" id="btn-clear-search" class="btn btn-outline btn-sm">Limpar</button>
+                    </div>
+
+                    <div class="links-table-wrapper">
+                        <table class="links-table">
+                            <thead>
+                                <tr>
+                                    <th>Slug</th>
+                                    <th>Título / Destino</th>
+                                    <th style="text-align: center;">Cliques</th>
+                                    <th style="text-align: right;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="links-table-body">
+                                <tr>
+                                    <td colspan="4" class="loading">Carregando links...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination-wrapper">
+                        <div>
+                            Exibindo <span id="pag-start">0</span> - <span id="pag-end">0</span> de <span id="pag-total">0</span>
+                        </div>
+                        <div style="display: flex; gap: 6px; align-items: center;">
+                            <button type="button" id="btn-prev-page" class="btn btn-outline btn-sm">◄ Anterior</button>
+                            <span id="pag-current-page" style="font-weight: 700;">1</span>
+                            <button type="button" id="btn-next-page" class="btn btn-outline btn-sm">Próximo ►</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Modais -->
+    <div id="qr-modal" class="modal-overlay">
+        <div class="modal-content" style="text-align: center;">
+            <div class="modal-header">
+                <h3>📱 QR Code do Link</h3>
+                <button type="button" class="modal-close-btn" data-close="qr-modal">&times;</button>
+            </div>
+            <p style="font-size: 13px; color: var(--text-muted);" id="qr-modal-url-display"></p>
+            <div class="qr-code-box" id="qr-container"></div>
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                <button type="button" id="btn-copy-qr-link" class="btn btn-copy">📋 Copiar Link</button>
+                <button type="button" class="modal-close-btn btn btn-secondary" data-close="qr-modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="import-export-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💾 Importação e Exportação JSON</h3>
+                <button type="button" class="modal-close-btn" data-close="import-export-modal">&times;</button>
+            </div>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Exporte ou importe a base <code>links.json</code>.</p>
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div style="background: var(--bg-subtle); padding: 14px; border-radius: var(--radius-md);">
+                    <h4 style="font-size: 14px; margin-bottom: 8px;">📤 Exportar Base</h4>
+                    <button type="button" id="btn-export-json" class="btn btn-primary btn-sm">Baixar links.json</button>
+                </div>
+                <div style="background: var(--bg-subtle); padding: 14px; border-radius: var(--radius-md);">
+                    <h4 style="font-size: 14px; margin-bottom: 8px;">📥 Importar JSON</h4>
+                    <input type="file" id="import-file-input" accept=".json" style="margin-bottom: 10px; font-size: 12px;">
+                    <textarea id="import-text-area" rows="4" placeholder='{"slug": {"url": "https://..."}}'></textarea>
+                    <div style="margin-top: 10px;">
+                        <button type="button" id="btn-import-json" class="btn btn-primary btn-sm">Processar Importação</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="audit-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 650px;">
+            <div class="modal-header">
+                <h3>📜 Registro de Eventos e Auditoria</h3>
+                <button type="button" class="modal-close-btn" data-close="audit-modal">&times;</button>
+            </div>
+            <div style="max-height: 320px; overflow-y: auto; border: 1px solid var(--border-button); border-radius: var(--radius-md); background: var(--bg-subtle); padding: 10px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid var(--border-button); color: var(--text-muted);">
+                            <th style="padding: 6px;">Data/Hora</th>
+                            <th style="padding: 6px;">Ação</th>
+                            <th style="padding: 6px;">IP / Local</th>
+                            <th style="padding: 6px;">Navegador</th>
+                        </tr>
+                    </thead>
+                    <tbody id="audit-log-body">
+                        <tr><td colspan="4" style="text-align: center; padding: 10px;">Nenhum log registrado.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top: 14px; text-align: right;">
+                <button type="button" id="btn-clear-audit-logs" class="btn btn-danger btn-sm">Limpar Logs</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Configurações, Proxy Serverless e Segurança -->
+    <div id="settings-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 580px;">
+            <div class="modal-header">
+                <h3>⚙️ Configurações de Domínio & Proxy Serverless</h3>
+                <button type="button" class="modal-close-btn" data-close="settings-modal">&times;</button>
+            </div>
+            
+            <form id="settings-form" style="display: flex; flex-direction: column; gap: 14px;">
+                
+                <!-- Opção de Proxy Cloudflare Worker (Zero Token no Cliente) -->
+                <div style="background: var(--bg-subtle); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-button);">
+                    <h4 style="font-size: 14px; margin-bottom: 8px; color: var(--accent-primary); display: flex; align-items: center; gap: 6px;">
+                        ⚡ Cloudflare Worker Proxy (Zero Token no Navegador)
+                    </h4>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+                        Se usar o Cloudflare Worker, o Token do GitHub permanece 100% no servidor/Edge.
+                    </p>
+
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label for="setting-worker-url">URL do Cloudflare Worker Proxy (Opcional)</label>
+                        <input type="url" id="setting-worker-url" placeholder="https://api-proxy.meudominio.com.br/api/update-links">
+                    </div>
+                </div>
+
+                <!-- Criptografia Direct GitHub Token (Caso não use Worker) -->
+                <div style="background: var(--bg-subtle); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-button);">
+                    <h4 style="font-size: 14px; margin-bottom: 8px; color: var(--text-main);">
+                        🔐 Token do GitHub Direto (Criptografia AES-256)
+                    </h4>
+
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label for="setting-github-token">GitHub Personal Access Token (PAT)</label>
+                        <input type="password" id="setting-github-token" placeholder="ghp_... ou github_pat_...">
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                        <div class="form-group">
+                            <label for="setting-github-owner">Usuário / Org GitHub</label>
+                            <input type="text" id="setting-github-owner" placeholder="ex: lourenco">
+                        </div>
+                        <div class="form-group">
+                            <label for="setting-github-repo">Nome do Repositório</label>
+                            <input type="text" id="setting-github-repo" placeholder="ex: bio-bg-2">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="setting-github-branch">Branch Principal</label>
+                        <input type="text" id="setting-github-branch" placeholder="main" value="main">
+                    </div>
+                </div>
+
+                <!-- Google Authenticator TOTP -->
+                <div style="background: var(--bg-subtle); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-button);">
+                    <h4 style="font-size: 14px; margin-bottom: 8px; color: var(--text-main);">📲 Autenticação TOTP 2FA (Google Authenticator)</h4>
+                    <div style="display: flex; gap: 14px; align-items: center; justify-content: center; background: #ffffff; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-button); margin-bottom: 10px;">
+                        <div id="totp-qr-container"></div>
+                        <div style="text-align: left;">
+                            <div style="font-size: 11px; color: #64748b;">Chave Secreta Manual:</div>
+                            <code id="totp-secret-key-display" style="font-size: 14px; font-weight: 800; color: #0f172a; word-break: break-all;"></code>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 8px;">
+                        <button type="button" id="btn-enable-totp" class="btn btn-primary btn-sm" style="flex: 1;">Ativar Google Authenticator 2FA</button>
+                        <button type="button" id="btn-disable-totp" class="btn btn-danger btn-sm">Desativar 2FA</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="setting-base-domain">Domínio Público dos Links (meudominio.com.br)</label>
+                    <input type="text" id="setting-base-domain" placeholder="https://meudominio.com.br">
+                </div>
+
+                <div class="form-group">
+                    <label for="setting-url-prefix">Prefixo das URLs Curtas</label>
+                    <select id="setting-url-prefix">
+                        <option value="go">/go/ (ex: meudominio.com.br/go/slug)</option>
+                        <option value="l">/l/ (ex: meudominio.com.br/l/slug)</option>
+                        <option value="r">/r/ (ex: meudominio.com.br/r/slug)</option>
+                        <option value="direct">Sem prefixo (ex: meudominio.com.br/slug)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="setting-new-pass">Alterar Senha Master</label>
+                    <input type="password" id="setting-new-pass" placeholder="Nova senha master">
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 6px;">Salvar Configurações</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast-notification">
+        <span id="toast-message">Link copiado com sucesso!</span>
+    </div>
+
+    <script src="../admin.js"></script>
+</body>
+</html>

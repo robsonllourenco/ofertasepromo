@@ -6,6 +6,7 @@ const AUTO_UPDATE_INTERVAL = 30000;
 
 let lastPosts = [];
 let scriptTag = null;
+let allLinksData = null;
 
 const FALLBACK_POSTS = [
   {
@@ -29,23 +30,6 @@ const FALLBACK_POSTS = [
     url: BLOG_URL
   }
 ];
-
-function renderPosts(posts) {
-  const container = document.getElementById('posts-container');
-  if (!container || !posts?.length) return;
-
-  const postsJson = JSON.stringify(posts);
-  const lastPostsJson = JSON.stringify(lastPosts);
-
-  if (postsJson === lastPostsJson) return;
-  lastPosts = posts;
-
-  const html = posts.map(post => 
-    `<a href="${post.url}" target="_blank" class="post-card"><img src="${post.image}" alt="${post.title}" class="post-image" loading="lazy" decoding="async" width="150" height="150"><h3 class="post-title">${post.title}</h3></a>`
-  ).join('');
-
-  container.innerHTML = `<div class="posts-grid">${html}</div>`;
-}
 
 function renderPosts(posts) {
   const container = document.getElementById('posts-container');
@@ -94,20 +78,90 @@ function showPosts(data) {
 
 window.showPosts = showPosts;
 
+// Alternador de Tema Claro / Escuro
+function initTheme() {
+  const savedTheme = localStorage.getItem('redirect_theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  const icon = document.getElementById('theme-icon');
+  if (icon) icon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = current === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('redirect_theme', next);
+  const icon = document.getElementById('theme-icon');
+  if (icon) icon.textContent = next === 'dark' ? '☀️' : '🌙';
+}
+
+// Pesquisa de links na Bio
+function initBioSearch() {
+  const searchInput = document.getElementById('bio-search-input');
+  const resultsContainer = document.getElementById('bio-search-results');
+  if (!searchInput || !resultsContainer) return;
+
+  fetch('links.json')
+    .then(res => res.json())
+    .then(data => {
+      allLinksData = data;
+    })
+    .catch(e => console.warn('Não foi possível carregar links para pesquisa:', e));
+
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.trim().toLowerCase();
+    if (!query || !allLinksData) {
+      resultsContainer.innerHTML = '';
+      return;
+    }
+
+    const matches = Object.entries(allLinksData).filter(([slug, info]) => {
+      const title = (info.title || '').toLowerCase();
+      const url = (info.url || '').toLowerCase();
+      return slug.includes(query) || title.includes(query) || url.includes(query);
+    });
+
+    if (matches.length === 0) {
+      resultsContainer.innerHTML = '<p class="no-posts">Nenhum brinde ou link encontrado.</p>';
+      return;
+    }
+
+    const html = matches.slice(0, 4).map(([slug, info]) => `
+      <div class="search-result-item">
+        <div class="result-info">
+          <strong>${escapeHtml(info.title || slug)}</strong>
+          <small>/${slug}</small>
+        </div>
+        <a href="${info.url}" target="_blank" class="btn btn-primary btn-sm">Acessar</a>
+      </div>
+    `).join('');
+
+    resultsContainer.innerHTML = html;
+  });
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  initBioSearch();
+
+  const themeBtn = document.getElementById('btn-theme-toggle');
+  if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
+
   renderPosts(FALLBACK_POSTS);
   loadPosts();
   setInterval(loadPosts, AUTO_UPDATE_INTERVAL);
 
-  // Bloquear clique direito (menu de contexto)
+  // Bloquear clique direito e seleção
   document.addEventListener('contextmenu', e => e.preventDefault());
-
-  // Bloquear seleção de texto e cópia
   document.addEventListener('selectstart', e => e.preventDefault());
   document.addEventListener('copy', e => e.preventDefault());
   document.addEventListener('dragstart', e => e.preventDefault());
 
-  // Bloquear teclas de inspeção e atalhos (F12, Ctrl+U, Ctrl+Shift+I, Ctrl+S, Ctrl+C)
+  // Bloquear teclas de inspeção
   document.addEventListener('keydown', e => {
     if (
       e.key === 'F12' ||

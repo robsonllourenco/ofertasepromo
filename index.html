@@ -18,25 +18,32 @@
     <link rel="canonical" href="https://euquerobrindesgratis.blogspot.com/">
     <link rel="icon" href="logo.png" type="image/png">
     <link rel="apple-touch-icon" href="logo.png">
+    <link rel="manifest" href="manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://euquerobrindesgratis.blogspot.com">
-    <link rel="preconnect" href="https://blogger.com">
-    <link rel="preconnect" href="https://blogspot.com">
     <link rel="preload" as="image" href="logo.png" type="image/png">
     <link rel="preload" as="image" href="verificado.png" type="image/png">
-    <style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background-color:#ffffff;color:#0f172a;display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:16px;margin:0}</style>
     <link rel="stylesheet" href="styles.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Eu Quero Brindes Grátis","url":"https://euquerobrindesgratis.blogspot.com/","description":"Participe dos nossos grupos de brindes grátis e fique por dentro das últimas novidades sobre brindes e amostras grátis.","potentialAction":{"@type":"SearchAction","target":"https://euquerobrindesgratis.blogspot.com/search?q={search_term_string}"}}</script>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Eu Quero Brindes Grátis","url":"https://euquerobrindesgratis.blogspot.com/","logo":"logo.png","sameAs":["https://www.instagram.com/","https://www.telegram.org/","https://www.whatsapp.com/"]}</script>
+    
+    <!-- Script de Redirecionamento Instantâneo -->
+    <script src="redirect.js"></script>
+
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Eu Quero Brindes Grátis","url":"https://euquerobrindesgratis.blogspot.com/","description":"Participe dos nossos grupos de brindes grátis e fique por dentro das últimas novidades sobre brindes e amostras grátis."}</script>
 </head>
-<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
+<body>
+    <!-- Botão de Alternar Tema Claro / Escuro -->
+    <button type="button" id="btn-theme-toggle" class="theme-toggle-btn" aria-label="Alternar tema" title="Alternar tema">
+        <span id="theme-icon">🌙</span>
+    </button>
+
     <div class="container">
         <div class="logo-wrapper">
-            <img src="logo.png" alt="Logo" class="logo" loading="eager" width="96" height="96">
+            <img src="logo.png" alt="Logo" class="logo" loading="eager" width="84" height="84">
         </div>
-        <h1>Eu Quero Brindes Grátis <img src="verificado.png" alt="Verificado" class="verified-icon" loading="eager" width="22" height="22"></h1>
+        <h1>Eu Quero Brindes Grátis <img src="verificado.png" alt="Verificado" class="verified-icon" loading="eager" width="20" height="20"></h1>
+        
         <div class="groups-section">
             <h3>Participe dos nossos grupos!</h3>
             <div class="groups-grid">
@@ -66,6 +73,7 @@
                 </a>
             </div>
         </div>
+
         <div class="posts-section">
             <h2>ÚLTIMAS NOVIDADES</h2>
             <div id="posts-container" class="posts-container">
@@ -75,19 +83,8 @@
                 <a href="https://euquerobrindesgratis.blogspot.com/" target="_blank" class="link brinde">Ver mais</a>
             </div>
         </div>
+
     </div>
     <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-

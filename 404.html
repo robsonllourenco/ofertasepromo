@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Redirecionando... | Eu Quero Brindes Grátis</title>
+    <meta name="robots" content="noindex, follow">
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Script de Redirecionamento Imutável -->
+    <script src="redirect.js"></script>
+</head>
+<body>
+    <div class="container redirect-container">
+        <!-- Spinner / Loader de Redirecionamento -->
+        <div id="redirect-loading" class="redirect-loading-wrapper">
+            <div class="spinner"></div>
+            <p class="loading-text">Redirecionando você instantaneamente...</p>
+        </div>
+
+        <!-- Tela de Link Não Encontrado -->
+        <div id="not-found-card" class="not-found-card hidden">
+            <div class="logo-wrapper">
+                <img src="logo.png" alt="Logo" class="logo" width="84" height="84">
+            </div>
+            <h1>Link não encontrado <img src="verificado.png" alt="Verificado" class="verified-icon" width="20" height="20"></h1>
+            <p class="not-found-desc">O endereço <code id="missing-slug-display"></code> não foi encontrado ou expirou.</p>
+            
+            <div class="search-box" style="margin-top: 16px;">
+                <input type="text" id="link-search-input" placeholder="Pesquisar por oferta ou brinde..." aria-label="Pesquisar links">
+                <button type="button" id="link-search-btn" class="btn btn-primary" style="margin-top: 8px; width: 100%;">Buscar Oferta</button>
+            </div>
+            <div id="search-results" class="search-results"></div>
+
+            <div class="actions-wrapper" style="margin-top: 20px;">
+                <a href="index.html" class="link brinde">Ir para a Página Inicial</a>
+                <a href="https://euquerobrindesgratis.blogspot.com/" class="link contato" style="margin-top: 8px;">Acessar Nosso Blog</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const checkNotFound = () => {
+                if (window.REDIRECT_NOT_FOUND) {
+                    const loader = document.getElementById('redirect-loading');
+                    const card = document.getElementById('not-found-card');
+                    const slugSpan = document.getElementById('missing-slug-display');
+                    
+                    if (loader) loader.style.display = 'none';
+                    if (card) card.classList.remove('hidden');
+                    if (slugSpan) slugSpan.textContent = '/go/' + (window.REDIRECT_SLUG || '');
+
+                    // Carregar links para a busca
+                    fetch('links.json')
+                        .then(res => res.json())
+                        .then(data => {
+                            window.allLinksData = data;
+                        }).catch(e => console.error(e));
+                }
+            };
+
+            checkNotFound();
+
+            window.onRedirectNotFound = () => {
+                checkNotFound();
+            };
+
+            const searchInput = document.getElementById('link-search-input');
+            const searchBtn = document.getElementById('link-search-btn');
+            const searchResults = document.getElementById('search-results');
+
+            function performSearch() {
+                const query = (searchInput.value || '').trim().toLowerCase();
+                if (!query || !window.allLinksData) {
+                    searchResults.innerHTML = '';
+                    return;
+                }
+
+                const matches = Object.entries(window.allLinksData).filter(([slug, info]) => {
+                    const title = (info.title || '').toLowerCase();
+                    const url = (info.url || '').toLowerCase();
+                    return slug.includes(query) || title.includes(query) || url.includes(query);
+                });
+
+                if (matches.length === 0) {
+                    searchResults.innerHTML = '<p class="no-posts" style="margin-top: 10px;">Nenhum brinde encontrado com esse termo.</p>';
+                    return;
+                }
+
+                const html = matches.slice(0, 5).map(([slug, info]) => `
+                    <div class="search-result-item" style="margin-top: 8px;">
+                        <div class="result-info">
+                            <strong>${escapeHtml(info.title || slug)}</strong>
+                            <small>/go/${slug}</small>
+                        </div>
+                        <a href="${info.url}" target="_blank" class="btn btn-primary btn-sm">Acessar</a>
+                    </div>
+                `).join('');
+
+                searchResults.innerHTML = html;
+            }
+
+            if (searchBtn) searchBtn.addEventListener('click', performSearch);
+            if (searchInput) searchInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') performSearch();
+            });
+        });
+
+        function escapeHtml(str) {
+            return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+        }
+    </script>
+</body>
+</html>

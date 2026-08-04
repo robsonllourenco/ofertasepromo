@@ -921,26 +921,29 @@
   // ==========================================
 
   async function verifyMasterPassword(password) {
-    if (checkLockout()) return false;
-
+    if (!password) return false;
+    
+    const inputHash = await hashString(password.trim());
+    const defaultHash = await hashString(DEFAULT_PASSWORD);
     const storedHash = localStorage.getItem('redirect_admin_hash');
-    const inputHash = await hashString(password);
 
-    if (!storedHash) {
-      const defaultHash = await hashString(DEFAULT_PASSWORD);
-      if (inputHash === defaultHash) {
-        localStorage.setItem('redirect_admin_hash', defaultHash);
-        activeMasterPassword = password;
-        clearFailedAttempts();
-        return true;
-      }
-    } else {
-      if (inputHash === storedHash) {
-        activeMasterPassword = password;
-        clearFailedAttempts();
-        return true;
-      }
+    // 1. Se coincidir com a nova senha padrão CAFEQuente@@##77, atualiza o hash salvo e desbloqueia imediatamente
+    if (inputHash === defaultHash) {
+      localStorage.setItem('redirect_admin_hash', defaultHash);
+      activeMasterPassword = password.trim();
+      clearFailedAttempts();
+      return true;
     }
+
+    // 2. Se coincidir com uma senha customizada salva anteriormente
+    if (storedHash && inputHash === storedHash) {
+      activeMasterPassword = password.trim();
+      clearFailedAttempts();
+      return true;
+    }
+
+    // 3. Se a senha for incorreta, verifica se está em lockout
+    if (checkLockout()) return false;
 
     recordFailedAttempt();
     return false;
